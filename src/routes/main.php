@@ -4,9 +4,10 @@ use App\Controllers\HomeController;
 use App\Http\Route;
 
 Route::get('/', 'HomeController@index');
-Route::get('/cliente', 'HomeController@listaCliente'); // Busca todos os dados do cliente
-Route::get('/cliente/{id}', 'HomeController@buscaClientes'); // Busca dados do cliente por id
-Route::get('/ocorrencias', 'HomeController@ocorrencias'); // Busca as ocorrências
-Route::get('/admin/login','HomeController@loginAdmin'); //Buscar senha para login do administrador
-Route::post('/cliente/cadastro', 'HomeController@cadastrarClientes'); //Armazena o cadastro dos clientes
-Route::delete('/cliente/{id}/delete', 'HomeController@remove'); // Remove um cliente
+Route::get('/cliente/buscatodos','ClienteController@buscarTodosClientes'); // Busca todos os clientes
+Route::get('/cliente/{id}/busca',      'ClienteController@procurarCliente'); // Busca cliente por id
+Route::get('/cliente/ocorrencias','ClienteController@buscarOcorrencias'); // Busca as ocorrências
+Route::get('/admin/login',        'AdminController@loginAdmin'); //Busca dados do administrador
+Route::post('/cliente/cadastro/contato',  'ClienteController@cadastrarCliente'); //Cadastra cliente
+Route::delete('/cliente/{id}/remove', 'ClienteController@removerCliente'); // Remove um cliente
+
