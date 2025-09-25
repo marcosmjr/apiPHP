@@ -4,16 +4,16 @@ namespace App\Controllers;
 
 use App\Http\Request;
 use App\Http\Response;
-//use App\Services\ClienteService;
 use App\Models\Cliente;
 
 class ClienteController
 {
+    /**
+     * Cadastra os clientes e as ocorrências.
+     */
     public function cadastrarCliente(Request $request, Response $response)
     {
         $body = $request::body();
-
-        //$clienteService = ClienteService::create($body);
 
         $clienteModelCadastro = Cliente::cadastrarCliente($body);
 
@@ -30,13 +30,12 @@ class ClienteController
             $body = $request::body();
 
             $clienteModelBusca = Cliente::buscarTodosClientes();
-
-            print_r($clienteModelBusca); // retira
-            
+         
             $response::json([
             'error'   => false,
             'success' => true,
             'message' => 'Clientes encontrados.',
+            'data'    => $clienteModelBusca,
         ],200);
 
         return;
@@ -53,12 +52,12 @@ class ClienteController
 
             $ocorrenciasModelBusca = Cliente::buscarOcorrencias();
 
-            print_r($ocorrenciasModelBusca); // retira
             
             $response::json([
             'error'   => false,
             'success' => true,
             'message' => 'Ocorrências encontradas.',
+            'data'    => $ocorrenciasModelBusca,
         ],200);
 
         return;

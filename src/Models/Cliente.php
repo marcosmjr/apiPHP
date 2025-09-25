@@ -27,12 +27,10 @@ class Cliente extends DataBase
 
             $stmt->execute([
                 $data['servico_ocorrencias'],
-                //$data['data_ocorrencias'],
                 $data['mensagem_ocorrencias'],
             ]);
 
              $idOcorrencia = $pdo->lastInsertId();
-             print_r($idOcorrencia);
 
         if ($data['nome_empresa_cliente'] == 'N/A' || empty($data['nome_empresa_cliente']))
         {     
@@ -115,12 +113,9 @@ class Cliente extends DataBase
         return $pdo->lastInsertId() > 0 ? true : false;
     }
 
-
-     /*
-     * Busca todos os clientes e ocorrências no banco de dados
-     * O array $resultadoBusca é composto de um array de pessoas 
-     * físicas no índice 0 e de pessoas jurídicas no índice 1
-     * */
+    /**
+     * Busca todos os clientes e as ocorrencias
+     */
     public static function buscarTodosClientes()
     {
         $pdo = self::getConnection();
@@ -143,9 +138,10 @@ class Cliente extends DataBase
 
          $clientes_juridico = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-         $resultadoBusca = [$clientes_fisicos, $clientes_juridico];
 
-         return $resultadoBusca; //formado por arrays, clientes_fisicos e clientes_juridico
+         $resultadoBusca = array_merge($clientes_fisicos, $clientes_juridico);
+
+         return $resultadoBusca;
             
     }
 

@@ -10,8 +10,7 @@ class Core
 {
     public static function dispatch(array $routes)
     {
-
-        
+   
         $url = '/';
 
         isset($_GET['url']) && $url .= $_GET['url'];
@@ -26,8 +25,7 @@ class Core
         {
 
             $pattern = '#^' . preg_replace('/{id}/', '([\w-]+)', $route['path']) . '$#';
-
-            
+  
 
             if (preg_match($pattern, $url, $matches))
             {
@@ -36,7 +34,6 @@ class Core
 
                 $routeFound = true;
 
-                //echo $route['method'], "----"; echo Request::method(); echo "----",$_GET['url'];
 
                 if ($route['method'] !== Request::method())
                 {
@@ -53,15 +50,9 @@ class Core
 
                 $controller = $prefixController . $controller;
 
-                //echo $controller;
-
                 $extendController = new $controller();
                 $extendController->$action(new Request, new Response, $matches);
 
-                //print_r($matches);
-
-
-                
             }
 
         }
