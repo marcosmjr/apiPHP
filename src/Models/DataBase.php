@@ -14,7 +14,7 @@ class DataBase
         $dbHost = 'localhost';
         $dbUser = 'estudos';
         $dbPassword = 'estudos@1';
-        $dbname = 'api';
+        $dbname = 'fabio_ar_condicionado';
         $dbConfig = "mysql:host={$dbHost};dbname={$dbname}";
 
         $pdo = new PDO($dbConfig, $dbUser, $dbPassword);

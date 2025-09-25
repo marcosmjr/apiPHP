@@ -5,37 +5,41 @@ namespace App\Models;
 use App\Models\DataBase;
 use PDO;
 
-Class Cliente extends DataBase
+class Cliente extends DataBase
 {
-     public static function cadastrarCliente(array $data)
+    /**
+     * Cadastro dos clientes e suas demandas (ocorrências) 
+     */
+    public static function cadastrarCliente(array $data)
     {
         $dataHoje = date("Y-m-d");
 
         $pdo = self::getConnection();
 
             $stmt = $pdo->prepare("
-                INSERT INTO abio_ar_condicionado.ocorrencias(
+                INSERT INTO ocorrencias(
                 servico_ocorrencias,
                 data_ocorrencias,
                 mensagem_ocorrencias
                 )
-                VALUES (?, $dataHoje, ?, , ?)
+                VALUES (?, '$dataHoje', ?)
             ");
 
             $stmt->execute([
                 $data['servico_ocorrencias'],
-                $data['data_ocorrencias'],
+                //$data['data_ocorrencias'],
                 $data['mensagem_ocorrencias'],
             ]);
 
              $idOcorrencia = $pdo->lastInsertId();
+             print_r($idOcorrencia);
 
-        if ($data['nome_empresa_cliente_juridico'] == 'N/A' || empty($data['nome_empresa_cliente_juridico']))
+        if ($data['nome_empresa_cliente'] == 'N/A' || empty($data['nome_empresa_cliente']))
         {     
 
             $stmt = $pdo->prepare("               
 
-                INSERT INTO fabio_ar_condicionado.cliente_fisico
+                INSERT INTO cliente_fisico
                 (
                 nome_cliente_fisico, 
                 sobrenome_cliente_fisico, 
@@ -50,21 +54,21 @@ Class Cliente extends DataBase
                 preferencia_cliente_fisico,
                 fk_ocorrencia
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, $idOcorrencia)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '$idOcorrencia')
             ");
 
             $stmt->execute([
-                $data['nome_cliente_fisico'],
-                $data['sobrenome_cliente_fisico'],
-                $data['rua_cliente_fisico'],
-                $data['bairro_cliente_fisico'],
-                $data['numero_cliente_fisico'],
-                $data['cidade_cliente_fisico'],
-                $data['estado_cliente_fisico'],
-                $data['telefone_cliente_fisico'],
-                $data['whatsapp_cliente_fisico'],
-                $data['e_mail_cliente_fisico'],
-                $data[' preferencia_cliente_fisico'],
+                $data['nome_cliente'],
+                $data['sobrenome_cliente'],
+                $data['rua_cliente'],
+                $data['bairro_cliente'],
+                $data['numero_cliente'],
+                $data['cidade_cliente'],
+                $data['estado_cliente'],
+                $data['telefone_cliente'],
+                $data['whatsapp_cliente'],
+                $data['e_mail_cliente'],
+                $data['preferencia_cliente'],
 
             ]);
 
@@ -72,7 +76,7 @@ Class Cliente extends DataBase
         } else {
 
             $stmt = $pdo->prepare("
-                INSERT INTO fabio_ar_condicionado.cliente_juridico
+                INSERT INTO cliente_juridico
                 (
                 nome_cliente_juridico, 
                 sobrenome_cliente_juridico, 
@@ -92,18 +96,18 @@ Class Cliente extends DataBase
             ");
 
             $stmt->execute([
-                $data['nome_cliente_juridico'],
-                $data['sobrenome_cliente_juridico'],
-                $data['rua_cliente_juridico'],
-                $data['bairro_cliente_juridico'],
-                $data['numero_cliente_juridico'],
-                $data['cidade_cliente_juridico'],
-                $data['estado_cliente_juridico'],
-                $data['telefone_cliente_juridico'],
-                $data['whatsapp_cliente_juridico'],
-                $data['e_mail_cliente_juridico'],
-                $data['preferencia_cliente_juridico'],
-                $data['nome_empresa_cliente_juridico'],
+                $data['nome_cliente'],
+                $data['sobrenome_cliente'],
+                $data['rua_cliente'],
+                $data['bairro_cliente'],
+                $data['numero_cliente'],
+                $data['cidade_cliente'],
+                $data['estado_cliente'],
+                $data['telefone_cliente'],
+                $data['whatsapp_cliente'],
+                $data['e_mail_cliente'],
+                $data['preferencia_cliente'],
+                $data['nome_empresa_cliente'],
             ]);
 
         }
@@ -111,23 +115,61 @@ Class Cliente extends DataBase
         return $pdo->lastInsertId() > 0 ? true : false;
     }
 
-    public function buscarTodosClientes(Request $request, Response $response)
+
+     /*
+     * Busca todos os clientes e ocorrências no banco de dados
+     * O array $resultadoBusca é composto de um array de pessoas 
+     * físicas no índice 0 e de pessoas jurídicas no índice 1
+     * */
+    public static function buscarTodosClientes()
     {
+        $pdo = self::getConnection();
+
+        $stmt = $pdo->prepare("
+            SELECT * FROM ocorrencias
+            JOIN cliente_fisico ON id_ocorrencias = cliente_fisico.fk_ocorrencia
+        ");
+
+        $stmt->execute();
+
+        $clientes_fisicos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt = $pdo->prepare("
+            SELECT * FROM ocorrencias
+            JOIN cliente_juridico ON id_ocorrencias = cliente_juridico.fk_ocorrencia
+        ");
+
+        $stmt->execute();
+
+         $clientes_juridico = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+         $resultadoBusca = [$clientes_fisicos, $clientes_juridico];
+
+         return $resultadoBusca; //formado por arrays, clientes_fisicos e clientes_juridico
             
     }
 
-    public function procurarCliente(Request $request, Response $response)
+    public static function procurarCliente()
     {
-        
+        // Não sendo usado
     }
 
-    public function buscarOcorrencias(Request $request, Response $response)
+    public static function buscarOcorrencias()
     {
-        
+        $pdo = self::getConnection();
+
+        $stmt = $pdo->prepare("SELECT * FROM ocorrencias");
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function removerCliente(Request $request, Response $response, array $id)
+    public static function removerCliente(array $id)
     {
+        $pdo = self::getConnection();
+
+        $stmt = $pdo->prepare("DELETE FROM ocorrencias WHERE id = $id");
         
     }
 

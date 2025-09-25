@@ -15,19 +15,32 @@ class ClienteController
 
         //$clienteService = ClienteService::create($body);
 
-        $clienteModel = Cliente::cadastrarCliente($body);
+        $clienteModelCadastro = Cliente::cadastrarCliente($body);
 
         $response::json([
             'error'   => false,
             'success' => true,
             'message' => 'Cadastro realizado com sucesso.',
-           // 'data'    =>  $clienteModel   //  $clienteService
         ],201);
     }
 
+    /*Busca todos os clientes e ocorrências no banco de dados*/
     public function buscarTodosClientes(Request $request, Response $response)
     {
             $body = $request::body();
+
+            $clienteModelBusca = Cliente::buscarTodosClientes();
+
+            print_r($clienteModelBusca); // retira
+            
+            $response::json([
+            'error'   => false,
+            'success' => true,
+            'message' => 'Clientes encontrados.',
+        ],200);
+
+        return;
+
     }
 
     public function procurarCliente(Request $request, Response $response)
@@ -37,11 +50,29 @@ class ClienteController
 
     public function buscarOcorrencias(Request $request, Response $response)
     {
-        
+
+            $ocorrenciasModelBusca = Cliente::buscarOcorrencias();
+
+            print_r($ocorrenciasModelBusca ); // retira
+            
+            $response::json([
+            'error'   => false,
+            'success' => true,
+            'message' => 'Ocorrências encontradas.',
+        ],200);
+
+        return;
     }
 
     public function removerCliente(Request $request, Response $response, array $id)
     {
         
+        $removerClienteModel = Cliente::removerCliente($id);
+        
+        $response::json([
+            'error'   => false,
+            'success' => true,
+            'message' => 'Registro apagado.',
+        ],200);
     }
 }

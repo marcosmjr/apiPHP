@@ -36,6 +36,8 @@ class Core
 
                 $routeFound = true;
 
+               // echo $route['method'], "----"; echo Request::method(); echo "----",$_GET['url'];
+
                 if ($route['method'] !== Request::method())
                 {
                     Response::json([
