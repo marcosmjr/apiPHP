@@ -53,7 +53,7 @@ class ClienteController
 
             $ocorrenciasModelBusca = Cliente::buscarOcorrencias();
 
-            print_r($ocorrenciasModelBusca ); // retira
+            print_r($ocorrenciasModelBusca); // retira
             
             $response::json([
             'error'   => false,
@@ -67,12 +67,24 @@ class ClienteController
     public function removerCliente(Request $request, Response $response, array $id)
     {
         
-        $removerClienteModel = Cliente::removerCliente($id);
         
+        $removerClienteModel = Cliente::removerCliente($id[0]);
+
         $response::json([
             'error'   => false,
             'success' => true,
             'message' => 'Registro apagado.',
+        ],200);
+    }
+
+    public static function dataAtendimento(Request $request, Response $response)
+    {
+        Cliente::dataAtendimento();
+
+        $response::json([
+            'error'   => false,
+            'success' => true,
+            'message' => 'Data de atendimento adicionada.',
         ],200);
     }
 }

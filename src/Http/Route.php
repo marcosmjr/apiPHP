@@ -24,6 +24,15 @@ class Route
         ];
     }
 
+    public static function put(string $path, string $action)
+    {
+        self::$routes[] = [
+            'path'   => $path,
+            'action' => $action,
+            'method' => 'PUT'
+        ];
+    }
+
     public static function delete(string $path, string $action)
     {
         self::$routes[] = [

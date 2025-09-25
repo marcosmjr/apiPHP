@@ -55,6 +55,8 @@ class Core
                 $extendController = new $controller();
                 $extendController->$action(new Request, new Response, $matches);
 
+                //print_r($matches);
+
 
                 
             }

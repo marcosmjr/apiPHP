@@ -165,11 +165,20 @@ class Cliente extends DataBase
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function removerCliente(array $id)
+    public static function removerCliente(int|string $id)
     {
+        
         $pdo = self::getConnection();
 
-        $stmt = $pdo->prepare("DELETE FROM ocorrencias WHERE id = $id");
+        $stmt = $pdo->prepare("DELETE FROM ocorrencias WHERE id_ocorrencias = ?");
+
+        $stmt->execute([$id]);
+        
+    }
+
+    public static function dataAtendimento()
+    {
+        $dataAtendimento = date("Y-m-d");
         
     }
 

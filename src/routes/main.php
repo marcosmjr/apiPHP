@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\ClienteController;
 use App\Controllers\HomeController;
 use App\Http\Route;
 
@@ -10,4 +11,5 @@ Route::get('/cliente/ocorrencias','ClienteController@buscarOcorrencias'); // Bus
 Route::get('/admin/login',        'AdminController@loginAdmin'); //Busca dados do administrador
 Route::post('/cliente/cadastro/contato',  'ClienteController@cadastrarCliente'); //Cadastra cliente
 Route::delete('/cliente/{id}/remove', 'ClienteController@removerCliente'); // Remove um cliente
+Route::put('/cliente/atendimento', 'ClienteController@dataAtendimento' ); // Atualiza a data de atendimento
 
