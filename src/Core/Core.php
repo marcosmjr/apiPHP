@@ -36,10 +36,11 @@ class Core
 
                 $routeFound = true;
 
-               // echo $route['method'], "----"; echo Request::method(); echo "----",$_GET['url'];
+                //echo $route['method'], "----"; echo Request::method(); echo "----",$_GET['url'];
 
                 if ($route['method'] !== Request::method())
                 {
+
                     Response::json([
                         'error'   => true,
                         'success' => false,
@@ -51,6 +52,8 @@ class Core
                 [$controller, $action] = explode('@', $route['action']);
 
                 $controller = $prefixController . $controller;
+
+                //echo $controller;
 
                 $extendController = new $controller();
                 $extendController->$action(new Request, new Response, $matches);

@@ -45,7 +45,7 @@ class ClienteController
 
     public function procurarCliente(Request $request, Response $response)
     {
-        
+         // Não sendo usado
     }
 
     public function buscarOcorrencias(Request $request, Response $response)
@@ -77,9 +77,9 @@ class ClienteController
         ],200);
     }
 
-    public static function dataAtendimento(Request $request, Response $response)
+    public static function dataAtendimento(Request $request, Response $response, array $id)
     {
-        Cliente::dataAtendimento();
+        Cliente::dataAtendimento($id[0]);
 
         $response::json([
             'error'   => false,

@@ -92,7 +92,7 @@ class Cliente extends DataBase
                 nome_empresa_cliente_juridico,
                 fk_ocorrencia
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, $idOcorrencia)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '$idOcorrencia')
             ");
 
             $stmt->execute([
@@ -176,9 +176,19 @@ class Cliente extends DataBase
         
     }
 
-    public static function dataAtendimento()
+    public static function dataAtendimento($id)
     {
         $dataAtendimento = date("Y-m-d");
+
+        $pdo = self::getConnection();
+
+        $stmt = $pdo->prepare("
+        UPDATE ocorrencias 
+        SET atendida_ocorrencias = 's', data_atendimento = '$dataAtendimento' 
+        WHERE (id_ocorrencias = ?)
+        ");
+
+        $stmt->execute([$id]);
         
     }
 
