@@ -73,7 +73,7 @@ class ClienteController
             'error'   => false,
             'success' => true,
             'message' => 'Registro apagado.',
-        ],200);
+        ],204);
     }
 
     public static function dataAtendimento(Request $request, Response $response, array $id)
@@ -84,6 +84,6 @@ class ClienteController
             'error'   => false,
             'success' => true,
             'message' => 'Data de atendimento adicionada.',
-        ],200);
+        ],204);
     }
 }

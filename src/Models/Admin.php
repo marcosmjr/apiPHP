@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Models\DataBase;
+use App\Services\AdminService;
 use PDO;
 
 class Admin extends DataBase
 {
     public static function loginAdmin(array $data)
     {
+       
         $pdo = self::getConnection();
 
         $stmt = $pdo->prepare("SELECT * FROM login");
@@ -19,7 +21,9 @@ class Admin extends DataBase
 
         foreach($dbDadosLogin as $login)
         {
-            if($login['usuario'] == $data['usuario'] && $login['senha'] == $data['senha'])
+            $senhaDecriptografada = AdminService::descritografar($login['senha']);
+
+            if($login['usuario'] == $data['usuario'] && $senhaDecriptografada == $data['senha'])
             {
                 return 'autorizado';
             } else {

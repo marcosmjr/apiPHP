@@ -22,7 +22,7 @@ class AdminController
                 'error'   => false,
                 'success' => true,
                 'message' => 'Acesso autorizado.',
-            ],200);
+            ],201);
         
         } else {
 
@@ -30,7 +30,7 @@ class AdminController
                 'error'   => false,
                 'success' => true,
                 'message' => 'Acesso negado.',
-            ],401);
+            ],400);
 
         }
     
