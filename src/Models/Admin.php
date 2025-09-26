@@ -21,10 +21,8 @@ class Admin extends DataBase
         {
             if($login['usuario'] == $data['usuario'] && $login['senha'] == $data['senha'])
             {
-                echo 'autorizado';
                 return 'autorizado';
             } else {
-                echo 'negado';
                 return 'negado';
             }
         }
