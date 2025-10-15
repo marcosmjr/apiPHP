@@ -11,7 +11,10 @@ class Cliente extends DataBase
      * Cadastro dos clientes e suas demandas (ocorrências) 
      */
     public static function cadastrarCliente(array $data)
+
+
     {
+
         $dataHoje = date("Y-m-d");
 
         $pdo = self::getConnection();
@@ -109,6 +112,29 @@ class Cliente extends DataBase
             ]);
 
         }
+
+        /** Limita o numero máximo de cadastro que podem ser feito apagando sempre o mais antigo quando o limite é alcançados */
+
+        $limiteEntradas = 200;
+
+        $stmt = $pdo->query("
+            SELECT COUNT(DISTINCT id_ocorrencias) FROM ocorrencias
+        ");
+
+        $numeroEntradasBanco = $stmt->fetchColumn();
+
+        if ($numeroEntradasBanco >= $limiteEntradas){
+
+            $stmt = $pdo->query("
+            SELECT MIN(id_ocorrencias) FROM ocorrencias;
+            ");
+
+            $id = $stmt->fetchColumn();
+
+            self::removerCliente($id);
+        }
+
+        /****************************************************************/
 
         return $pdo->lastInsertId() > 0 ? true : false;
     }
