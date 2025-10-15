@@ -113,7 +113,7 @@ class Cliente extends DataBase
 
         }
 
-        /** Limita o numero máximo de cadastro que podem ser feito apagando sempre o mais antigo quando o limite é alcançados */
+        /** Limita o número máximo de cadastros, apagando sempre o mais antigo quando o limite é alcançado */
 
         $limiteEntradas = 200;
 
